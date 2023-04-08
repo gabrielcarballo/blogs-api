@@ -18,7 +18,7 @@ module.exports = {
         },
         display_name: {
           type: Sequelize.STRING,
-          notNull: true,
+          allowNull: false,
         },
         email: {
           type: Sequelize.STRING,
@@ -26,7 +26,7 @@ module.exports = {
         },
         password: {
           type: Sequelize.STRING,
-          notNull: true,
+          allowNull: false,
         },
         image: {
           type: Sequelize.STRING,

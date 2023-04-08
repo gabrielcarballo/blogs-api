@@ -1,14 +1,9 @@
-'use strict';
 /**
  *
  * @param {import('sequelize').Sequelize} sequelize
  * @param {*} DataTypes
  * @returns
  */
-
-const {
-  Model
-} = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   const userModel = sequelize.define('User',
@@ -26,7 +21,12 @@ module.exports = (sequelize, DataTypes) => {
     {
       timestamps: false,
       underscored: true,
-      tableName: 'users'
-    });
+    },
+  );
+
+    userModel.associate = ({BlogPosts}) => {
+      userModel.hasMany(BlogPosts, {foreignKey: 'user_id', as:'author'})
+    }
+
   return userModel;
 }
