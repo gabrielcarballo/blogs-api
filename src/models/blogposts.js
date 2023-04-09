@@ -15,10 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       title: DataTypes.STRING,
       content: DataTypes.STRING,
-      userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
+      userId: DataTypes.INTEGER,
       published: DataTypes.DATE,
       updated: DataTypes.DATE,
     },
