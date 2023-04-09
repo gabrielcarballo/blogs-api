@@ -6,21 +6,17 @@
  */
 
 module.exports = (sequelize, DataTypes) => {
-  const userModel = sequelize.define('User',
+  const categoriesModel = sequelize.define('Category',
     {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
-      email: DataTypes.STRING,
-      displayName: DataTypes.STRING,
-      password: DataTypes.STRING,
-      image: DataTypes.STRING,
+      name: DataTypes.STRING,
     },
     {
       timestamps: false,
-      underscored: true,
     },
   );
 
@@ -28,5 +24,9 @@ module.exports = (sequelize, DataTypes) => {
     userModel.hasMany(BlogPost, { foreignKey: 'user_id', as: 'author' })
   }
 
-  return userModel;
+  categoriesModel.associate = ({ PostsCategories }) => {
+    categoriesModel.hasMany(PostsCategories, { foreignKey: 'category_id', as: category_post });
+  }
+
+  return categoriesModel;
 }

@@ -6,7 +6,7 @@
  */
 
 module.exports = (sequelize, DataTypes) => {
-  const blogPosts = sequelize.define('BlogPosts',
+  const blogPosts = sequelize.define('BlogPost',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -30,6 +30,13 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'id',
       as: 'author'
     });
+
+    blogPosts.associate = ({ PostsCategory }) => {
+      blogPosts.hasMany(PostsCategory, {
+        foreignKey: 'post_id',
+        as: 'post_category'
+      })
+    }
   };
 
   return blogPosts;
