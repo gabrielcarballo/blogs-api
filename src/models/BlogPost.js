@@ -15,7 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       },
       title: DataTypes.STRING,
       content: DataTypes.STRING,
-      userId: DataTypes.INTEGER,
+      userId: {
+        foreignKey: true,
+        type: DataTypes.INTEGER,
+      },
       published: DataTypes.DATE,
       updated: DataTypes.DATE,
     },
@@ -31,8 +34,8 @@ module.exports = (sequelize, DataTypes) => {
       as: 'author'
     });
 
-    blogPosts.associate = ({ PostsCategory }) => {
-      blogPosts.hasMany(PostsCategory, {
+    blogPosts.associate = ({ PostCategory }) => {
+      blogPosts.hasMany(PostCategory, {
         foreignKey: 'post_id',
         as: 'post_category'
       })

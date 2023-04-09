@@ -20,12 +20,12 @@ module.exports = (sequelize, DataTypes) => {
     },
   );
 
-  userModel.associate = ({ BlogPost }) => {
-    userModel.hasMany(BlogPost, { foreignKey: 'user_id', as: 'author' })
+  categoriesModel.associate = ({ BlogPost }) => {
+    categoriesModel.hasMany(BlogPost, { foreignKey: 'user_id', as: 'author' })
   }
 
-  categoriesModel.associate = ({ PostsCategories }) => {
-    categoriesModel.hasMany(PostsCategories, { foreignKey: 'category_id', as: category_post });
+  categoriesModel.associate = ({ PostCategory }) => {
+    categoriesModel.hasMany(PostCategory, { foreignKey: 'category_id', as: 'category_post' });
   }
 
   return categoriesModel;
