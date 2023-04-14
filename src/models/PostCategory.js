@@ -11,13 +11,11 @@ module.exports = (sequelize, DataTypes) => {
       postId: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true,
         foreignKey: true,
       },
       categoryId: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true,
         foreignKey: true,
       }
     },
