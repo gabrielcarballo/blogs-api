@@ -1,6 +1,6 @@
 const { userValidations } = require('../utils/validations');
 const { mapError } = require('../utils/errorMap');
-const userController = require('../services');
+const userService = require('../services');
 const { generateToken } = require('../utils/auth');
 
 module.exports = async (req, res) => {
@@ -11,9 +11,9 @@ module.exports = async (req, res) => {
   }
 
   try {
-    await userController.signInUser(displayName, email, password, image);
-    req.auth = generateToken(email);
-    return res.status(201).json({ token: req.auth });
+    await userService.signInUser(displayName, email, password, image);
+    req.authorization = generateToken(email);
+    return res.status(201).json({ token: req.authorization });
   } catch (error) {
     const { errors: [{ type: isUserRegistered }] } = error;
     if (isUserRegistered === 'unique violation') {

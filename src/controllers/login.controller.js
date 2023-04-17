@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
   const isLoginValid = await loginService.getUserByEmail(email, password);
   if (!isLoginValid) {
     return res.status(400).json({ message: 'Invalid fields' });
-  } 
-    req.auth = generateToken(email);
-    return res.status(200).json({ token: req.auth });
+  }
+  req.authorization = generateToken(email);
+  return res.status(200).json({ token: req.authorization });
 };
