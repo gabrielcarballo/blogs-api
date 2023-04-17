@@ -1,9 +1,7 @@
 const { getUserByEmail } = require('./login.services');
-const { signInUser } = require('./user.services');
-const { getAllUsers } = require('./user.get.service');
+const userServices = require('./user.services');
 
 module.exports = {
   getUserByEmail,
-  signInUser,
-  getAllUsers,
+  userServices,
 };
