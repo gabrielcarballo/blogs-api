@@ -2,10 +2,11 @@ const express = require('express');
 
 const categoriesRoute = express.Router();
 
-const { categoryService } = require('../controllers');
+const { categoryController } = require('../controllers');
 const authorization = require('../utils/auth/middlewares');
 
-categoriesRoute.use('/categories', authorization, categoryService.addCategory);
+categoriesRoute.post('/categories', authorization, categoryController.addCategory);
+categoriesRoute.get('/categories', authorization, categoryController.getAllCategories);
 
 module.exports = {
   categoriesRoute,
