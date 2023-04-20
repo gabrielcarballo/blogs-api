@@ -17,29 +17,28 @@ module.exports = (sequelize, DataTypes) => {
       content: DataTypes.STRING,
       userId: {
         foreignKey: true,
-        type: DataTypes.INTEGER,
+        type: DataTypes.INTEGER,  
       },
-      published: DataTypes.DATE,
-      updated: DataTypes.DATE,
+      published: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
+      updated: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+      },
     },
     {
       timestamps: false,
       underscored: true,
-      tableName: 'blog_posts'
+      tableName: 'blog_posts',
     });
 
   blogPosts.associate = ({ User }) => {
     blogPosts.belongsTo(User, {
-      foreignKey: 'id',
-      as: 'author'
+      foreignKey: 'userId',
+      as: 'user'
     });
-
-    blogPosts.associate = ({ PostCategory }) => {
-      blogPosts.hasMany(PostCategory, {
-        foreignKey: 'post_id',
-        as: 'post_category'
-      })
-    }
   };
 
   return blogPosts;

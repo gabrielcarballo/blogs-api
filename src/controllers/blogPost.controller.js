@@ -1,15 +1,25 @@
-const { blogPostValidations } = require('../utils/validations')
-const { mapError } = require('../utils/errorMap')
-
+const { blogPostValidations } = require('../utils/validations');
+const { mapError } = require('../utils/errorMap');
+const { blogPostService } = require('../services');
 
 const addPost = async (req, res) => {
-  const postObject = req.body;
+  const { title, content, categoryIds } = req.body;
 
-  const { message, type } = blogPostValidations(postObject);
+  const { message, type } = blogPostValidations(title, content, categoryIds);
   if (type) {
-    return res.status(mapError(type).json({ message }))
-  };
+    return res.status(mapError(type)).json({ message });
+  } 
+    res.status(201).json('dale');
   
-  const addPost = await blogPostService.addPost(postObject);
+  /* const addPost = await blogPostService.addPost(postObject); */
+};
 
-}
+const getPosts = async (_req, res) => {
+  const data = await blogPostService.getPosts();
+  return res.status(200).json(data);
+};
+
+module.exports = {
+  addPost,
+  getPosts,
+};
