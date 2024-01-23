@@ -1,46 +1,46 @@
 version: "3"
 
 services:
-  # Serviço que irá rodar o node
+  # Service that will run node
   node:
-    # Faz o build do Dockerfile da pasta atual e utiliza o resultado desse build
-    # como a imagem do container
+    # Builds the Dockerfile from the current folder and uses the result of this build
+    # as the image of the container
     build: .
-    # Usuário linux padrão do container, não é recomendado usar root
+    # Default Linux user of the container, it is not recommended to use root
     # https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md#non-root-user
     user: node
-    # Nome do container para facilitar execução
+    # Name of the container to facilitate execution
     container_name: blogs_api
-    # Mesmo que `docker run -t`
+    # Same as `docker run -t`
     tty: true
-    # Mesmo que `docker run -i`
+    # Same as `docker run -i`
     stdin_open: true
-    # Substitui o comando padrão da imagem do node
+    # Replaces the default command of the node image
     command: bash
-    # Restarta a imagem caso algo a faça parar
+    # Restarts the image if something makes it stop
     restart: always
-    # Diretório padrão de execução
+    # Default execution directory
     working_dir: /app
-    # Lista de volumes (diretórios) mapeados de fora para dentro do container
+    # List of volumes (directories) mapped from outside to inside the container
     volumes:
-      # Monta o diretório atual, com todos os dados do projeto, 
-      # dentro do diretório /app
+      # Mounts the current directory, with all project data,
+      # inside the /app directory
       - ./src/:/app/src
       - ./__tests__/coverage/:/app/__tests__/coverage
-    # Lista de serviços do qual este serviço depende
+    # List of services on which this service depends
     depends_on:
-      # Precisa do banco funcionando antes de subir o node
+      # Needs the database running before bringing up the node
       - db
-    # Lista de portas mapeadas de dentro para fora do container
-    # na notação porta_de_fora:porta_de_dentro
+    # List of ports mapped from inside to outside the container
+    # in the notation outside_port:inside_port
     ports:
-      # Expõe a porta padrão da aplicação: altere aqui caso use outra porta
+      # Exposes the default application port: change here if you use another port
       - 3001:3001
-    # Configura as variáveis de ambiente dentro do container
+    # Configures the environment variables inside the container
     environment:
       MYSQL_USER: root
       MYSQL_PASSWORD: password
-      MYSQL_HOST: db # Nome do service logo abaixo
+      MYSQL_HOST: db # Name of the service just below
       JWT_SECRET: secretJWT
       API_HOST: 'node'
       API_PORT: 3001
@@ -48,16 +48,16 @@ services:
     networks:
       - blogs_api_net
 
-  # Serviço que irá rodar o banco de dados
+  # Service that will run the database
   db:
     container_name: blogs_api_db
     image: mysql:8.0.23
-    # Indica de forma fixa a plataforma na qual o banco irá rodar
+    # Indicates in a fixed way the platform on which the bank will run
     platform: linux/x86_64
     restart: always
     ports:
-      # Garanta que não haverá conflitos de porta com um banco que esteja
-      # rodando localmente
+      # Ensure that there will be no port conflicts with a bank that is
+      # running locally
       - 3306:3306
       - 33060:33060
     environment:
@@ -65,15 +65,15 @@ services:
     networks:
       - blogs_api_net
 
-# Lista de redes que os containeres irão utilizar
+# List of networks that the containers will use
 networks:
-  # Cria rede com nome `blogs_api_net`
+  # Creates network with name `blogs_api_net`
   blogs_api_net:
-    # Define o `driver` como `bridge`, que é o driver padrão do docker
+    # Defines the `driver` as `bridge`, which is the default docker driver
     driver: bridge
 
-# As chaves `tty`, `stdin_open` e `command` fazem com que o container fique
-# rodando em segundo plano, bem como tornam possível o uso do comando
-# `docker attach`, já deixando o terminal atual acoplado ao container, direto
-# no bash. Apesar disso, utilizar o attach mais de uma vez irá replicar o
-# terminal, portanto é melhor utilizar o comando `docker exec`.
+# The `tty`, `stdin_open` and `command` keys make the container keep
+# running in the background, as well as make it possible to use the command
+# `docker attach`, already leaving the current terminal attached to the container, directly
+# in bash. Despite this, using attach more than once will replicate the
+# terminal, so it is better to use the `docker exec` command.
