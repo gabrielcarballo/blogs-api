@@ -8,10 +8,8 @@ const addPost = async (req, res) => {
   const { message, type } = blogPostValidations(title, content, categoryIds);
   if (type) {
     return res.status(mapError(type)).json({ message });
-  } 
-    res.status(201).json('dale');
-  
-  /* const addPost = await blogPostService.addPost(postObject); */
+  }
+  res.status(201).json();
 };
 
 const getPosts = async (_req, res) => {
